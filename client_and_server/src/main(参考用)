@@ -1,0 +1,31 @@
+#include <iostream>
+#include "Pathplan/path.h"
+#include "PathSmooth/PathSmooth.h"
+#include "FootStep/FootstepPlan.h"
+int main(int, char**) {
+    // 设定起点，终点，初始时刻的前后脚关系
+    gpath::tc_path *mypath = new gpath::tc_path();
+    gfootstepplan::tc_PathCapture *mycpath;
+    gfootstepplan::tc_Footstep *myfootstep;
+
+    // mypath = &gpath::api_PathPlaningReturn(0, 0, 360, 170); // 起点(x,y),终点（x,y）：0, 0, 432, 20;0, 0, 432, 160
+    // gpathsmooth::gfnGeneratePathFromTxt(mypath, "../Data/globalPath.txt");
+    gpathsmooth::gfnGeneratePathFromTxt(mypath, "/home/qimao/myCode/navigation/Data/globalPath1cm.txt");
+    // gpathsmooth::gfnvSaveDataWithFile(mypath, "../Data/GPath.dat");
+
+    // gpathsmooth::gfnvPathTransLine(mypath); // 路径拉直
+    // gpathsmooth::gfnvSaveDataWithFile(mypath, "../Data/GPathTransLine.dat");
+
+    // gpathsmooth::gfnvPathSmooth(mypath); // 路径光滑处理
+    // gpathsmooth::gfnvSaveDataWithFile(mypath, "../Data/GPathSmooth.dat");
+
+    gfootstepplan::tc_BHRhard hardpara(0.30, 10, 0.1); // BHR 运动学参数设置- 最大步长，最大转弯角度（度），左右脚距中心距离
+    // mycpath = &gfootstepplan::gfnvCapturePathV2(mypath, hardpara);
+    // mycpath = &gfootstepplan::gfnvCapturePathV3(mypath, hardpara,0.01);
+    mycpath = &gfootstepplan::gfnvCapturePathV4(mypath, hardpara, 0.005);
+    gfootstepplan::gfnvSaveCPath(mycpath, "/home/qimao/myCode/navigation/Data/GPathCaputer.dat");
+
+    myfootstep = &gfootstepplan::gfndPlantFootStepPlannerV2(mycpath, hardpara); // 落脚点规划结果输出到 myfootstep
+    gfootstepplan::gfnvSaveFoot(myfootstep, "/home/qimao/myCode/navigation/Data/GFoot.dat");
+    return 0;
+}

@@ -1,0 +1,8 @@
+prefix=/home/qimao/catkin_ws/src/navigation/client_and_server/build/devel
+
+Name: client_and_server
+Description: Description of client_and_server
+Version: 0.0.0
+Cflags: -I/home/qimao/catkin_ws/src/navigation/client_and_server/build/devel/include
+Libs: -L${prefix}/lib 
+Requires: roscpp rospy sensor_msgs std_msgs nav_msgs

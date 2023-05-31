@@ -1,0 +1,8 @@
+char[] walk_case
+float32 direct
+float32[] left_arm_joints
+float32[] right_arm_joints
+float32[] left_leg_joints
+float32[] right_leg_joints
+---
+FootStep[] result_steps
